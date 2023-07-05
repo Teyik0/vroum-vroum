@@ -10,5 +10,5 @@ export interface Car {
   horsePower: number;
   seats?: number;
   doors?: number;
-  images?: string[];
+  imgUrls: string[];
 }

@@ -10,7 +10,7 @@ const CarCard = ({ car }: CarProps) => {
   const itemStyle = `flex col-span-12 sm:col-span-6 gap-2 border px-4 py-1 rounded-full`;
   return (
     <div className='cursor-pointer'>
-      <Link href={`/${car.id}`}>
+      <Link href={`/voiture/${car.id}`}>
         <div className='relative h-[350px] rounded-lg overflow-hidden'>
           <Image fill alt='car' src='/audi.jpeg' priority />
         </div>

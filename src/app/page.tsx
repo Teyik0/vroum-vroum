@@ -1,8 +1,11 @@
+'use client';
+
 import { SearchGroup, CarCard } from '@/components';
 import { Car } from '@/utils/interface';
+import { useEffect, useState } from 'react';
 
-const getAllCars = async () => {
-  const res = await fetch(`${process.env.BASE_URL}/api/cars`, {
+const getAllCars = async (): Promise<Car[]> => {
+  const res = await fetch(`/api/cars`, {
     method: 'GET',
     next: { revalidate: 60 },
   });
@@ -10,8 +13,11 @@ const getAllCars = async () => {
   return data;
 };
 
-export default async function Home() {
-  const cars = await getAllCars();
+export default function Home() {
+  const [cars, setCars] = useState<Car[] | null>(null);
+  useEffect(() => {
+    getAllCars().then((cars) => setCars(cars));
+  }, []);
   return (
     <main>
       <section className='px-2 sm:px-12 md:px-24 py-12'>
