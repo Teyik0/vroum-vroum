@@ -1,5 +1,5 @@
 const getCardById = async (id: string) => {
-  const res = await fetch(`/api/cars/${id}`);
+  const res = await fetch(`${process.env.BASE_URL}/api/cars/${id}`);
   const data = await res.json();
   return data;
 };
