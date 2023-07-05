@@ -2,7 +2,7 @@ import { SearchGroup, CarCard } from '@/components';
 import { Car } from '@/utils/interface';
 
 const getAllCars = async () => {
-  const res = await fetch(`${process.env.BASE_URL}/api/cars`, {
+  const res = await fetch(`/api/cars`, {
     method: 'GET',
     next: { revalidate: 60 },
   });
