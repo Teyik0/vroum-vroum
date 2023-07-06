@@ -1,3 +1,4 @@
 import { atom } from 'jotai';
+import { FilterCarParams } from './interface';
 
-export const countAtom = atom(0);
+export const requestParamsAtom = atom<FilterCarParams>({});

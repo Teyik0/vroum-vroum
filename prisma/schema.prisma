@@ -11,17 +11,41 @@ datasource db {
 }
 
 model Car {
-  id         Int      @id @default(autoincrement())
-  brand      String
-  model      String
-  price      Int
-  year       Int
-  kilometers Int
-  fuel       String
-  gearbox    String
-  horsePower Int
-  seats      Int?
-  doors      Int?
-  color      String?
-  imgUrls    String[]
+  id              Int       @id @default(autoincrement())
+  brand           String    @default("Volvo")
+  model           String
+  price           Int
+  year            Int
+  kilometers      Int
+  energy          Energy    @default(diesel)
+  gearbox         Gearbox   @default(manual)
+  horsePower      Int
+  seats           Int?
+  doors           Int?
+  imgUrls         String[]
+  motorisation    String?
+  warranty        String?
+  category        Category?
+  circulationDate String?
+  provenance      String?
+}
+
+enum Category {
+  citadine
+  eco
+  suv
+  compacte
+  berline
+}
+
+enum Gearbox {
+  manual
+  automatic
+}
+
+enum Energy {
+  diesel
+  essence
+  hybride
+  electrique
 }

@@ -36,7 +36,7 @@ const Carousel = ({
   }, [current]);
 
   return (
-    <div className='overflow-hidden relative mt-4 w-full'>
+    <div className='overflow-hidden relative w-full'>
       <div
         className='flex transition-transform ease-out duration-500'
         style={{ transform: `translateX(-${current * 100}%` }}
@@ -55,8 +55,8 @@ const Carousel = ({
         <div className='flex items-center justify-center gap-4'>
           {Array.from({ length: length }).map((_, index) => (
             <div
-              className={`transition-all rounded-full h-4 w-4 bg-blue-800 ${
-                current === index ? 'p-3' : 'bg-opacity-50'
+              className={`transition-all rounded-full h-4 w-4 bg-slate-200 ${
+                current === index ? 'p-2' : 'bg-opacity-50'
               } cursor-pointer hover:bg-opacity-100`}
               key={index}
               onClick={() => setCurrent(index)}

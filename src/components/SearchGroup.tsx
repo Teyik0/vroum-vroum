@@ -7,13 +7,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { requestParamsAtom } from '@/utils/context';
+import { useAtom } from 'jotai';
 import { RefreshCcw } from 'lucide-react';
 
 const SearchGroup = () => {
-  const handleChange = () => {};
+  const [requestParams, setRequestParams] = useAtom(requestParamsAtom);
+  const handleChange = (value: string, name: string) => {
+    if (value === 'tous-prix') {
+      const { price, ...updatedParams } = requestParams;
+      setRequestParams(updatedParams);
+    } else if (value === 'tous-kilometre') {
+      const { km, ...updatedParams } = requestParams;
+      setRequestParams(updatedParams);
+    } else if (value === 'tous-carburant') {
+      const { energy, ...updatedParams } = requestParams;
+      setRequestParams(updatedParams);
+    } else if (value === 'toutes-categorie') {
+      const { category, ...updatedParams } = requestParams;
+      setRequestParams(updatedParams);
+    } else if (value === 'toutes-boites') {
+      const { gearbox, ...updatedParams } = requestParams;
+      setRequestParams(updatedParams);
+    } else {
+      setRequestParams({ ...requestParams, [name]: value });
+    }
+  };
   return (
     <div className='grid grid-cols-12 gap-4'>
-      <Select onValueChange={handleChange} defaultValue='tous-prix'>
+      <Select
+        onValueChange={(value: string) => handleChange(value, 'price')}
+        defaultValue='tous-prix'
+      >
         <SelectTrigger className='col-span-6 md:col-span-4'>
           <SelectValue placeholder='Prix véhicule' />
         </SelectTrigger>
@@ -32,7 +57,10 @@ const SearchGroup = () => {
         </SelectContent>
       </Select>
 
-      <Select onValueChange={handleChange} defaultValue='tous-kilometre'>
+      <Select
+        onValueChange={(value: string) => handleChange(value, 'km')}
+        defaultValue='tous-kilometre'
+      >
         <SelectTrigger className='col-span-6 md:col-span-4'>
           <SelectValue placeholder='Kilométrage' />
         </SelectTrigger>
@@ -49,7 +77,10 @@ const SearchGroup = () => {
         </SelectContent>
       </Select>
 
-      <Select onValueChange={handleChange} defaultValue='tous-carburant'>
+      <Select
+        onValueChange={(value: string) => handleChange(value, 'energy')}
+        defaultValue='tous-carburant'
+      >
         <SelectTrigger className='col-span-6 md:col-span-4'>
           <SelectValue placeholder='Carburant' />
         </SelectTrigger>
@@ -61,14 +92,14 @@ const SearchGroup = () => {
             électrique
           </SelectItem>
           <SelectItem value='hybride'>Hybride</SelectItem>
-          <SelectItem value='hybride-rechargeable'>
-            Hybride rechargeable
-          </SelectItem>
         </SelectContent>
       </Select>
 
-      <Select onValueChange={handleChange} defaultValue='toutes-categorie'>
-        <SelectTrigger className='col-span-6 md:col-span-5'>
+      <Select
+        onValueChange={(value: string) => handleChange(value, 'category')}
+        defaultValue='toutes-categorie'
+      >
+        <SelectTrigger className='col-span-6 md:col-span-5 capitalize'>
           <SelectValue placeholder='Catégorie' />
         </SelectTrigger>
         <SelectContent>
@@ -83,7 +114,10 @@ const SearchGroup = () => {
         </SelectContent>
       </Select>
 
-      <Select onValueChange={handleChange} defaultValue='toutes-boites'>
+      <Select
+        onValueChange={(value: string) => handleChange(value, 'gearbox')}
+        defaultValue='toutes-boites'
+      >
         <SelectTrigger className='col-span-6 md:col-span-5'>
           <SelectValue placeholder='Boîte de vitesse' />
         </SelectTrigger>

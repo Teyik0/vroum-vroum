@@ -1,23 +1,42 @@
 'use client';
 
 import { SearchGroup, CarCard } from '@/components';
-import { Car } from '@/utils/interface';
+import { requestParamsAtom } from '@/utils/context';
+import { FilterCarParams } from '@/utils/interface';
+import { Car } from '@prisma/client';
+import { request } from 'http';
+import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 
-const getAllCars = async (): Promise<Car[]> => {
-  const res = await fetch(`/api/cars`, {
-    method: 'GET',
-    next: { revalidate: 60 },
-  });
-  const data = await res.json();
-  return data;
+export const getAllCars = async (
+  requestParams: FilterCarParams
+): Promise<Car[]> => {
+  if (requestParams) {
+    const params = new URLSearchParams(
+      requestParams as Record<string, string>
+    ).toString();
+    const res = await fetch(`/api/cars?${params}`);
+    const data = await res.json();
+    return data;
+  } else {
+    const res = await fetch(`/api/cars`, {
+      method: 'GET',
+      next: { revalidate: 60 },
+    });
+    const data = await res.json();
+    return data;
+  }
 };
 
 export default function Home() {
   const [cars, setCars] = useState<Car[] | null>(null);
+  const [requestParams] = useAtom(requestParamsAtom);
+
   useEffect(() => {
-    getAllCars().then((cars) => setCars(cars));
-  }, []);
+    getAllCars(requestParams).then((cars) => setCars(cars));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestParams]);
+
   return (
     <main>
       <section className='px-2 sm:px-12 md:px-24 py-12'>
@@ -27,7 +46,7 @@ export default function Home() {
         <SearchGroup />
       </section>
 
-      <section className='grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 w-full gap-4 y-12 px-4'>
+      <section className='grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 w-full gap-4 md:gap-8 py-12 px-4'>
         {cars && cars.map((car: Car) => <CarCard key={car.id} car={car} />)}
       </section>
     </main>

@@ -1,14 +1,8 @@
-export interface Car {
-  id?: string;
-  brand: string;
-  model: string;
-  price: number;
-  year?: number;
-  kilometers: number;
-  fuel: string;
-  gearbox: string;
-  horsePower: number;
-  seats?: number;
-  doors?: number;
-  imgUrls: string[];
+import { Energy, Gearbox, Category } from '@prisma/client';
+export interface FilterCarParams {
+  price?: string;
+  km?: string;
+  energy?: Energy;
+  category?: Category;
+  gearbox?: Gearbox;
 }
