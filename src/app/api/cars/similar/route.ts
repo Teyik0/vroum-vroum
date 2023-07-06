@@ -1,9 +1,9 @@
 import prisma from '@/utils/client';
-import { NextApiRequest } from 'next';
 import { FilterCarParams } from '@/utils/interface';
 import { parseQueryParameters } from '../route';
+import { NextRequest } from 'next/server';
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
   try {
     const params: FilterCarParams = parseQueryParameters(request.url!);
     if (params) {

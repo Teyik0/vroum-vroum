@@ -1,32 +1,10 @@
 'use client';
 
 import { SearchGroup, CarCard } from '@/components';
-import { requestParamsAtom } from '@/utils/context';
-import { FilterCarParams } from '@/utils/interface';
+import { getAllCars, requestParamsAtom } from '@/utils/context';
 import { Car } from '@prisma/client';
-import { request } from 'http';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
-
-export const getAllCars = async (
-  requestParams: FilterCarParams
-): Promise<Car[]> => {
-  if (requestParams) {
-    const params = new URLSearchParams(
-      requestParams as Record<string, string>
-    ).toString();
-    const res = await fetch(`/api/cars?${params}`);
-    const data = await res.json();
-    return data;
-  } else {
-    const res = await fetch(`/api/cars`, {
-      method: 'GET',
-      next: { revalidate: 60 },
-    });
-    const data = await res.json();
-    return data;
-  }
-};
 
 export default function Home() {
   const [cars, setCars] = useState<Car[] | null>(null);

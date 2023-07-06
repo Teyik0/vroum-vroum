@@ -1,53 +1,17 @@
 'use client';
 
 import { CarCard, Carousel } from '@/components';
+import { getCarById, getNumberFromPath, getSimilarCar } from '@/utils/context';
 import { FilterCarParams } from '@/utils/interface';
 import { Car } from '@prisma/client';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const getCardById = async (id: string): Promise<Car | null> => {
-  const res = await fetch(`/api/cars/${id}`);
-  if (res.status === 200) {
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } else {
-    return null;
-  }
-};
-
-const getNumberFromPath = (path: string) => {
-  const parts = path.split('/');
-  const number = parts[parts.length - 1];
-  return number;
-};
-
-export const getSimilarCar = async (
-  requestParams: FilterCarParams
-): Promise<Car[]> => {
-  if (requestParams) {
-    const params = new URLSearchParams(
-      requestParams as Record<string, string>
-    ).toString();
-    const res = await fetch(`/api/cars/similar?${params}`);
-    const data = await res.json();
-    return data;
-  } else {
-    const res = await fetch(`/api/cars`, {
-      method: 'GET',
-      next: { revalidate: 60 },
-    });
-    const data = await res.json();
-    return data;
-  }
-};
-
 const Page = () => {
   const pathname = usePathname();
   const [car, setCar] = useState<Car | null>(null);
   useEffect(() => {
-    getCardById(getNumberFromPath(pathname)).then((car) => setCar(car));
+    getCarById(getNumberFromPath(pathname)).then((car) => setCar(car));
   }, [pathname]);
 
   const [cars, setCars] = useState<Car[] | null>(null);
@@ -66,7 +30,10 @@ const Page = () => {
 
   return (
     <div className='m-auto max-w-[1200px]'>
-      <div className='px-2 mt-2'>
+      <h1 className='text-4xl font-semibold mt-4 px-2'>
+        {car?.brand} {car?.model}
+      </h1>
+      <div className='px-2 mt-4'>
         {car && car.imgUrls && (
           <>
             <Carousel length={car.imgUrls.length} autoSlide>
