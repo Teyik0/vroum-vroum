@@ -65,7 +65,7 @@ const Page = () => {
   }, [car]);
 
   return (
-    <div>
+    <div className='m-auto max-w-[1200px]'>
       <div className='px-2 mt-2'>
         {car && car.imgUrls && (
           <>
@@ -149,9 +149,9 @@ const Page = () => {
           </table>
         </div>
 
-        <div className='mt-8'>
+        <div className='my-8'>
           <h2 className='text-2xl font-bold'>Annonces similaires</h2>
-          <section className='grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 w-full gap-4 md:gap-8 mt-8'>
+          <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full gap-4 mt-8'>
             {cars && cars.map((car: Car) => <CarCard key={car.id} car={car} />)}
           </section>
         </div>
@@ -179,14 +179,14 @@ const Row = ({ title1, value1, title2, value2, color }: RowProps) => {
       >
         {title1}
       </th>
-      <td className='px-4'>{value1}</td>
+      <td className='px-4 first-letter:capitalize'>{value1}</td>
       <th
         scope='row'
         className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white first-letter:capitalize'
       >
         {title2}
       </th>
-      <td className='px-4'>{value2}</td>
+      <td className='px-4 first-letter:capitalize'>{value2}</td>
     </tr>
   );
 };
