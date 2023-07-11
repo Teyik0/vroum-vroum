@@ -1,15 +1,24 @@
 'use client';
 
 import { CarCard, Carousel } from '@/components';
-import { getCarById, getNumberFromPath, getSimilarCar } from '@/utils/context';
+import {
+  currentSlideAtom,
+  getCarById,
+  getNumberFromPath,
+  getSimilarCar,
+} from '@/utils/context';
 import { FilterCarParams } from '@/utils/interface';
 import { Car } from '@prisma/client';
+import { useAtom } from 'jotai';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const Page = () => {
   const pathname = usePathname();
   const [car, setCar] = useState<Car | null>(null);
+  const [currentSlide, setCurrentSlide] = useAtom(currentSlideAtom);
   useEffect(() => {
     getCarById(getNumberFromPath(pathname)).then((car) => setCar(car));
   }, [pathname]);
@@ -27,6 +36,16 @@ const Page = () => {
       getSimilarCar(requestParams).then((cars) => setCars(cars));
     }
   }, [car]);
+
+  const scrollLeft = () => {
+    const slider = document.getElementById('slider');
+    if (slider) slider.scrollLeft += 236;
+  };
+
+  const scrollRight = () => {
+    const slider = document.getElementById('slider');
+    if (slider) slider.scrollLeft -= 236;
+  };
 
   return (
     <div className='m-auto max-w-[1200px]'>
@@ -47,15 +66,61 @@ const Page = () => {
                 />
               ))}
             </Carousel>
-            <div className='grid grid-cols-5'></div>
+            <div className='flex items-center relative'>
+              <div
+                className='absolute left-0 z-50 hover:bg-gray-200 cursor-pointer rounded-full p-[2px]
+              ease-in-out duration-300'
+                onClick={() => scrollRight()}
+              >
+                <IoIosArrowBack size={25} />
+              </div>
+              <div
+                id='slider'
+                className='mx-8 overflow-x-scroll scrollbar-hide scroll-smooth snap-x'
+              >
+                <div
+                  className='flex flex-row gap-4 items-center justify-start 
+                 relative py-4'
+                >
+                  {car.imgUrls.map((url, index) => (
+                    <div
+                      key={url}
+                      className='w-[220px] h-[150px] hover:scale-95 transition duration-300
+                      rounded-lg cursor-pointer flex-shrink-0'
+                      onClick={() => setCurrentSlide(index)}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        key={url}
+                        src={url}
+                        alt={car.model}
+                        className='rounded-lg object-cover w-full h-full'
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div
+                className='absolute right-0 z-50 hover:bg-gray-200 cursor-pointer rounded-full p-[2px]
+                ease-in-out duration-300'
+                onClick={() => scrollLeft()}
+              >
+                <IoIosArrowForward size={25} />
+              </div>
+            </div>
           </>
         )}
       </div>
       <div className='mt-8 px-2'>
         <div className='flex justify-between text-2xl font-bold'>
-          <h2>
-            {car?.brand} {car?.model}
-          </h2>
+          <div className='flex items-end gap-2'>
+            <h2>
+              {car?.brand} {car?.model}
+            </h2>
+            <h2 className='text-xl font-semibold italic text-slate-400'>
+              - {car?.finition}
+            </h2>
+          </div>
           <span className='text-blue-800'>{car?.price}€</span>
         </div>
 

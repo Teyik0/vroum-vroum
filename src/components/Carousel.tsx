@@ -2,6 +2,8 @@
 
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
+import { currentSlideAtom } from '@/utils/context';
 
 const buttonStyle = `rounded-full bg-white/60 shadow-l hover:bg-white transition duration-300`;
 
@@ -18,7 +20,7 @@ const Carousel = ({
   autoSlide = false,
   autoSlideInterval = 6000,
 }: CarouselProps) => {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useAtom(currentSlideAtom);
 
   const handleNext = () => {
     setCurrent((prev) => (current === length - 1 ? 0 : prev + 1));

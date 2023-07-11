@@ -109,7 +109,7 @@ const SearchGroup = () => {
             éco
           </SelectItem>
           <SelectItem value='compacte'>Compacte</SelectItem>
-          <SelectItem value='suv-crossover'>SUV / Crossover</SelectItem>
+          <SelectItem value='suv'>SUV / Crossover</SelectItem>
           <SelectItem value='berline'>Berline</SelectItem>
         </SelectContent>
       </Select>
@@ -123,8 +123,8 @@ const SearchGroup = () => {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value='toutes-boites'>Toutes boîtes</SelectItem>
-          <SelectItem value='manuelle'>Manuelle</SelectItem>
-          <SelectItem value='automatique'>Automatique</SelectItem>
+          <SelectItem value='manual'>Manuelle</SelectItem>
+          <SelectItem value='automatic'>Automatique</SelectItem>
         </SelectContent>
       </Select>
 

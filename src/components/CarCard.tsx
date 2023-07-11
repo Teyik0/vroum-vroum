@@ -21,7 +21,7 @@ const CarCard = ({ car }: CarProps) => {
           <div className='flex justify-between'>
             <span className='text-blue-800 text-xl'>{car.price}€</span>
             <span className='italic text-slate-400 font-normal'>
-              {car.year} - S-line
+              {car.year} - {car.finition}
             </span>
           </div>
         </div>

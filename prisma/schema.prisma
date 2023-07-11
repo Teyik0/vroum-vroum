@@ -11,23 +11,24 @@ datasource db {
 }
 
 model Car {
-  id              Int       @id @default(autoincrement())
-  brand           String    @default("Volvo")
+  id              Int      @id @default(autoincrement())
+  brand           String
   model           String
   price           Int
   year            Int
   kilometers      Int
-  energy          Energy    @default(diesel)
-  gearbox         Gearbox   @default(manual)
+  energy          Energy
+  gearbox         Gearbox
   horsePower      Int
-  seats           Int?
-  doors           Int?
+  seats           Int
+  doors           Int
   imgUrls         String[]
-  motorisation    String?
-  warranty        String?
-  category        Category?
-  circulationDate String?
-  provenance      String?
+  motorisation    String
+  warranty        String
+  category        Category
+  circulationDate String
+  provenance      String
+  finition        String
 }
 
 enum Category {

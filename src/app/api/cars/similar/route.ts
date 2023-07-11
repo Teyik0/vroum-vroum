@@ -47,6 +47,7 @@ export async function GET(request: NextRequest) {
             },
           ],
         },
+        take: 8,
       });
       return new Response(JSON.stringify(cars), { status: 200 });
     } else {

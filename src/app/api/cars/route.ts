@@ -19,7 +19,13 @@ export function parseQueryParameters(url: string) {
 export async function GET(request: NextApiRequest) {
   try {
     const params: FilterCarParams = parseQueryParameters(request.url!);
-    if (params) {
+    if (
+      params.category ||
+      params.energy ||
+      params.gearbox ||
+      params.km ||
+      params.price
+    ) {
       const cars = await prisma.car.findMany({
         where: {
           AND: [
@@ -71,6 +77,7 @@ export async function GET(request: NextApiRequest) {
       return new Response(JSON.stringify(cars), { status: 200 });
     }
   } catch (error) {
+    console.log(error);
     return new Response('Something went wrong', { status: 500 });
   }
 }
@@ -78,8 +85,8 @@ export async function GET(request: NextApiRequest) {
 export async function POST(request: Request) {
   const carParams: Car = await request.json();
 
-  if (!carParams.brand)
-    return new Response('Brand is required', { status: 400 });
+  //if (!carParams.brand)
+  //return new Response('Brand is required', { status: 400 });
   if (!carParams.model)
     return new Response('Model is required', { status: 400 });
   if (!carParams.price)
@@ -99,6 +106,7 @@ export async function POST(request: Request) {
     });
     return new Response(JSON.stringify(car), { status: 200 });
   } catch (error) {
+    console.log(error);
     return new Response('Something went wrong', { status: 500 });
   }
 }

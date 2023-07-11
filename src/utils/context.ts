@@ -3,11 +3,18 @@ import { FilterCarParams } from './interface';
 import { Car } from '@prisma/client';
 
 export const requestParamsAtom = atom<FilterCarParams>({});
+export const currentSlideAtom = atom<number>(0);
 
 export const getAllCars = async (
   requestParams: FilterCarParams
 ): Promise<Car[]> => {
-  if (requestParams) {
+  if (
+    requestParams.category ||
+    requestParams.energy ||
+    requestParams.gearbox ||
+    requestParams.km ||
+    requestParams.price
+  ) {
     const params = new URLSearchParams(
       requestParams as Record<string, string>
     ).toString();
