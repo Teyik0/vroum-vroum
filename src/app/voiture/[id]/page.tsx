@@ -10,7 +10,6 @@ import {
 import { FilterCarParams } from '@/utils/interface';
 import { Car } from '@prisma/client';
 import { useAtom } from 'jotai';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -18,7 +17,7 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 const Page = () => {
   const pathname = usePathname();
   const [car, setCar] = useState<Car | null>(null);
-  const [currentSlide, setCurrentSlide] = useAtom(currentSlideAtom);
+  const [, setCurrentSlide] = useAtom(currentSlideAtom);
   useEffect(() => {
     getCarById(getNumberFromPath(pathname)).then((car) => setCar(car));
   }, [pathname]);
@@ -62,7 +61,7 @@ const Page = () => {
                   key={index + car.model}
                   src={url || '/audi.jpeg'}
                   alt={car.model}
-                  className='rounded-lg'
+                  className='rounded-lg object-cover w-full'
                 />
               ))}
             </Carousel>
