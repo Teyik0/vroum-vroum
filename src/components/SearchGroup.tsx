@@ -7,12 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { requestParamsAtom } from '@/utils/context';
+import { carsAtom, getAllCars, requestParamsAtom } from '@/utils/context';
+import { stat } from 'fs';
+import { get } from 'http';
 import { useAtom } from 'jotai';
 import { RefreshCcw } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const SearchGroup = () => {
   const [requestParams, setRequestParams] = useAtom(requestParamsAtom);
+  const [, setCars] = useAtom(carsAtom);
+
   const handleChange = (value: string, name: string) => {
     if (value === 'tous-prix') {
       const { price, ...updatedParams } = requestParams;
@@ -33,6 +38,14 @@ const SearchGroup = () => {
       setRequestParams({ ...requestParams, [name]: value });
     }
   };
+
+  const handleClick = () => {
+    getAllCars(requestParams).then((cars) => {
+      setCars(cars);
+      toast.success('Recherche effectués !');
+    });
+  };
+
   return (
     <div className='grid grid-cols-12 gap-4'>
       <Select
@@ -131,6 +144,10 @@ const SearchGroup = () => {
       <button
         className='h-auto col-span-2 md:col-span-1 md:col-start-12 border rounded-lg flex justify-center items-center
       hover:bg-slate-100'
+        onClick={() => {
+          setRequestParams({});
+          window.location.reload();
+        }}
       >
         <RefreshCcw strokeWidth={2.5} />
       </button>
@@ -138,6 +155,7 @@ const SearchGroup = () => {
       <button
         className='h-auto md:h-12 col-span-4 md:col-span-6 md:col-start-7 bg-blue-600 text-white text-xl rounded-lg 
           flex justify-center items-center hover:bg-blue-900 ease-in-out duration-300'
+        onClick={handleClick}
       >
         Recherche
       </button>

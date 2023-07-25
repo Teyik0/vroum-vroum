@@ -21,13 +21,16 @@ export default function Home() {
       <Toaster />
       <section className='px-2 sm:px-8 md:px-12 lg:px-24 py-12'>
         <h1 className='text-4xl font-semibold mb-4'>
-          Recherchez votre véhicule d&apos;occasion
+          Cherchez le véhicule à modifier
         </h1>
         <SearchGroup />
       </section>
 
       <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full gap-4 py-12 px-4'>
-        {cars && cars.map((car: Car) => <CarCard key={car.id} car={car} />)}
+        {cars &&
+          cars.map((car: Car) => (
+            <CarCard key={car.id} car={car} isAdmin={true} />
+          ))}
       </section>
     </main>
   );

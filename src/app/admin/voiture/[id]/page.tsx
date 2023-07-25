@@ -179,13 +179,6 @@ const Page = () => {
             </tbody>
           </table>
         </div>
-
-        <div className='my-8'>
-          <h2 className='text-2xl font-bold'>Annonces similaires</h2>
-          <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full gap-4 mt-8'>
-            {cars && cars.map((car: Car) => <CarCard key={car.id} car={car} />)}
-          </section>
-        </div>
       </div>
     </div>
   );
