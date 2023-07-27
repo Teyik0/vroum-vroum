@@ -80,7 +80,7 @@ const CarCard = ({ car, isAdmin }: CarProps) => {
         </Link>
       </div>
 
-      {/* {modal.isClicked && isAdmin && <Modal />} */}
+      {modal.isClicked && isAdmin && <Modal />}
     </>
   );
 };

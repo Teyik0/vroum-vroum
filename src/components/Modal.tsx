@@ -48,8 +48,8 @@ const Modal = () => {
   };
 
   const handleDelete = () => {
-    setLoading(true);
-    if (modal.car !== null) {
+    /* setLoading(true);
+     if (modal.car !== null) {
       fetch(`/api/cars/${modal.car.id}`, {
         method: 'DELETE',
         headers: {
@@ -71,11 +71,11 @@ const Modal = () => {
           setLoading(false);
           console.error('Error:', error);
         });
-    }
+    } */
   };
 
   const handleUpdate = () => {
-    setLoading(true);
+    /* setLoading(true);
     if (modal.car !== null) {
       fetch(`/api/cars/${modal.car.id}`, {
         method: 'PUT',
@@ -101,7 +101,7 @@ const Modal = () => {
           setLoading(false);
           console.error('Error:', error);
         });
-    }
+    } */
   };
 
   return (

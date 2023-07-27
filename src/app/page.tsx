@@ -27,7 +27,10 @@ export default function Home() {
       </section>
 
       <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full gap-4 py-12 px-4'>
-        {cars && cars.map((car: Car) => <CarCard key={car.id} car={car} />)}
+        {cars &&
+          cars.map((car: Car) => (
+            <CarCard key={car.id} car={car} isAdmin={false} />
+          ))}
       </section>
     </main>
   );
