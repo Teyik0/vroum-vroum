@@ -47,9 +47,12 @@ const Modal = () => {
     });
   };
 
-  const handleDelete = () => {
-    /* setLoading(true);
-     if (modal.car !== null) {
+  const handleDelete = () => {};
+  const handleUpdate = () => {};
+
+  /* const handleDelete = () => {
+    setLoading(true);
+    if (modal.car !== null) {
       fetch(`/api/cars/${modal.car.id}`, {
         method: 'DELETE',
         headers: {
@@ -71,11 +74,11 @@ const Modal = () => {
           setLoading(false);
           console.error('Error:', error);
         });
-    } */
+    }
   };
 
   const handleUpdate = () => {
-    /* setLoading(true);
+    setLoading(true);
     if (modal.car !== null) {
       fetch(`/api/cars/${modal.car.id}`, {
         method: 'PUT',
@@ -101,8 +104,8 @@ const Modal = () => {
           setLoading(false);
           console.error('Error:', error);
         });
-    } */
-  };
+    }
+  }; */
 
   return (
     <div className='fixed flex justify-center items-center z-50 left-0 right-0 top-0 bottom-0 bg-[#5d5d5d1d]'>
@@ -309,21 +312,22 @@ const Modal = () => {
             <>
               <Link
                 className='px-4 py-2 bg-green-600 text-white text-xl rounded-lg 
-          flex justify-center items-center hover:bg-green-900 ease-in-out duration-300'
+                flex justify-center items-center hover:bg-green-900 ease-in-out duration-300'
+                onClick={() => (document.body.style.overflow = 'unset')}
                 href={`/admin/voiture/${modal.car?.id}`}
               >
                 Modification avancée
               </Link>
               <button
                 className='px-4 py-2 bg-blue-600 text-white text-xl rounded-lg 
-          flex justify-center items-center hover:bg-blue-900 ease-in-out duration-300'
+                flex justify-center items-center hover:bg-blue-900 ease-in-out duration-300'
                 onClick={handleUpdate}
               >
                 Mettre à jour
               </button>
               <button
                 className='px-4 py-2 bg-red-600 text-white text-xl rounded-lg 
-          flex justify-center items-center hover:bg-red-900 ease-in-out duration-300'
+                flex justify-center items-center hover:bg-red-900 ease-in-out duration-300'
                 onClick={handleDelete}
               >
                 Supprimer

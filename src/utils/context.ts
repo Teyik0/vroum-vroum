@@ -27,6 +27,7 @@ export const isModalClickedAtom = atom<{
   car: null,
 });
 export const sessionAtom = atomWithStorage<User | null>('session', null);
+export const currentCarAtom = atom<Car | null>(null);
 
 export const getSession = async (authToken: string) => {
   const res = await fetch('/api/user/isAuthenticated', {

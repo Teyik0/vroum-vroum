@@ -15,7 +15,7 @@ import { Car } from '@prisma/client';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { BiPlus } from 'react-icons/bi';
+import { TbCrosshair } from 'react-icons/tb';
 
 export default function Home() {
   const [cars, setCars] = useAtom(carsAtom);
@@ -64,7 +64,7 @@ export default function Home() {
             before:translate-y-[100%] before:transition-all 
             before:duration-500 before:ease-in-out hover:before:translate-y-0 hover:before:rounded-none'
         >
-          <BiPlus className='text-7xl text-slate-300' />
+          <TbCrosshair className='text-7xl text-slate-300' />
           <h4 className='absolute top-4 left-4 text-xl font-bold'>
             Ajouter une nouvelle voiture
           </h4>
@@ -89,7 +89,7 @@ export default function Home() {
             before:translate-y-[100%] before:transition-all 
             before:duration-500 before:ease-in-out hover:before:translate-y-0 hover:before:rounded-none'
             >
-              <BiPlus className='text-7xl text-slate-300' />
+              <TbCrosshair className='text-7xl text-slate-300' />
               <h4 className='absolute top-4 left-4 text-xl font-bold'>
                 Ajouter une nouvelle voiture
               </h4>
