@@ -8,8 +8,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { carsAtom, getAllCars, requestParamsAtom } from '@/utils/context';
-import { stat } from 'fs';
-import { get } from 'http';
 import { useAtom } from 'jotai';
 import { RefreshCcw } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -47,7 +45,7 @@ const SearchGroup = () => {
   };
 
   return (
-    <div className='grid grid-cols-12 gap-4'>
+    <div className='grid grid-cols-12 gap-4 z-50'>
       <Select
         onValueChange={(value: string) => handleChange(value, 'price')}
         defaultValue='tous-prix'

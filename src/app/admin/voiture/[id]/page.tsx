@@ -6,10 +6,8 @@ import {
   currentSlideAtom,
   getCarById,
   getNumberFromPath,
-  getSimilarCar,
 } from '@/utils/context';
-import { FilterCarParams } from '@/utils/context';
-import { Car, Category, Energy, Gearbox } from '@prisma/client';
+import { Category, Energy, Gearbox } from '@prisma/client';
 import { useAtom } from 'jotai';
 import { redirect, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -45,10 +43,7 @@ const Page = () => {
     if (slider) slider.scrollLeft -= 236;
   };
 
-  const handleUpdate = () => {};
-  const handleDelete = () => {};
-
-  /* const handleUpdate = () => {
+  const handleUpdate = () => {
     setLoading(true);
     if (car !== null) {
       fetch(`/api/cars/${car.id}`, {
@@ -91,7 +86,7 @@ const Page = () => {
           console.error('Error:', error);
         });
     }
-  }; */
+  };
 
   return (
     <div className='m-auto max-w-[1200px]'>

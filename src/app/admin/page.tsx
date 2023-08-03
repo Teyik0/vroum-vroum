@@ -29,24 +29,24 @@ export default function Home() {
     password: '',
   });
 
-  const handleClick = async () => {
+  /* const handleClick = async () => {
     const { username, password } = loginForm;
     const userLog = await login(username, password);
     if (!userLog.error) {
       setSession(userLog);
       toast.success('Vous êtes connecté');
     } else toast.error(userLog.error);
-  };
+  }; */
 
   useEffect(() => {
     /* if (session) {
       getSession(session.authToken).then((user) => {
+        console.log(user);
         if (user.error) setSession(null);
       });
     } */
     getAllCars(requestParams).then((cars) => setCars(cars));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [requestParams, session, setCars, setSession]);
 
   return (
     <main className='m-auto max-w-[1200px]'>
@@ -90,7 +90,12 @@ export default function Home() {
             before:duration-500 before:ease-in-out hover:before:translate-y-0 hover:before:rounded-none'
             >
               <TbCrosshair className='text-7xl text-slate-300' />
-              <h4 className='absolute top-4 left-4 text-xl font-bold'>
+              <h4
+                className='absolute top-4 left-4 text-xl font-bold'
+                onClick={() => {
+                  toast.success('Vous êtes connecté');
+                }}
+              >
                 Ajouter une nouvelle voiture
               </h4>
             </div>

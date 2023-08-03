@@ -31,6 +31,9 @@ const Modal = () => {
   const [loading, setLoading] = useState(false);
   if (modal.isClicked) document.body.style.overflow = 'hidden';
 
+  const handleDelete = () => {};
+  const handleUpdate = () => {};
+
   const handleChange = (
     value: Energy | Category | Gearbox,
     name: 'energy' | 'category' | 'gearbox'
@@ -47,10 +50,7 @@ const Modal = () => {
     });
   };
 
-  const handleDelete = () => {};
-  const handleUpdate = () => {};
-
-  /* const handleDelete = () => {
+  /*  const handleDelete = () => {
     setLoading(true);
     if (modal.car !== null) {
       fetch(`/api/cars/${modal.car.id}`, {
