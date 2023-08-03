@@ -10,11 +10,13 @@ import {
 import { carsAtom, getAllCars, requestParamsAtom } from '@/utils/context';
 import { useAtom } from 'jotai';
 import { RefreshCcw } from 'lucide-react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const SearchGroup = () => {
   const [requestParams, setRequestParams] = useAtom(requestParamsAtom);
   const [, setCars] = useAtom(carsAtom);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleChange = (value: string, name: string) => {
     if (value === 'tous-prix') {
@@ -49,6 +51,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'price')}
         defaultValue='tous-prix'
+        onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
           <SelectValue placeholder='Prix véhicule' />
@@ -71,6 +74,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'km')}
         defaultValue='tous-kilometre'
+        onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
           <SelectValue placeholder='Kilométrage' />
@@ -91,6 +95,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'energy')}
         defaultValue='tous-carburant'
+        onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
           <SelectValue placeholder='Carburant' />
@@ -109,6 +114,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'category')}
         defaultValue='toutes-categorie'
+        onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-5 capitalize'>
           <SelectValue placeholder='Catégorie' />
@@ -128,6 +134,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'gearbox')}
         defaultValue='toutes-boites'
+        onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-5'>
           <SelectValue placeholder='Boîte de vitesse' />
@@ -157,6 +164,10 @@ const SearchGroup = () => {
       >
         Recherche
       </button>
+
+      {isOpen && (
+        <div className='absolute h-[50vh] w-full bg-transparent translate-y-52'></div>
+      )}
     </div>
   );
 };
