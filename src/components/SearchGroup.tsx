@@ -166,7 +166,7 @@ const SearchGroup = () => {
       </button>
 
       {isOpen && (
-        <div className='absolute h-[50vh] w-full bg-transparent translate-y-52'></div>
+        <div className='absolute h-[50vh] w-full bg-black z-30 translate-y-52'></div>
       )}
     </div>
   );
