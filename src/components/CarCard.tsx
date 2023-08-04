@@ -10,7 +10,7 @@ import Modal from './Modal';
 
 export interface CarProps {
   car: Car;
-  isAdmin: boolean;
+  isAdmin?: boolean;
 }
 
 const CarCard = ({ car, isAdmin }: CarProps) => {

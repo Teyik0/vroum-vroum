@@ -1,17 +1,11 @@
 'use client';
 
-import { Carousel } from '@/components';
-import {
-  currentCarAtom,
-  currentSlideAtom,
-  getCarById,
-  getNumberFromPath,
-} from '@/utils/context';
+import { Carousel, MiniCarousel } from '@/components';
+import { currentCarAtom, currentSlideAtom } from '@/utils/context';
 import { Category, Energy, Gearbox } from '@prisma/client';
 import { useAtom } from 'jotai';
 import { redirect, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { FiEdit } from 'react-icons/fi';
 import {
   Select,
@@ -22,6 +16,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import toast, { Toaster } from 'react-hot-toast';
+import { fetchCarById } from '@/utils/fetch';
 
 const Page = () => {
   const pathname = usePathname();
@@ -30,18 +25,10 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getCarById(getNumberFromPath(pathname)).then((car) => setCar(car));
+    fetchCarById(pathname.split('/')[pathname.split('/').length - 1]).then(
+      (car) => setCar(car)
+    );
   }, [pathname, setCar]);
-
-  const scrollLeft = () => {
-    const slider = document.getElementById('slider');
-    if (slider) slider.scrollLeft += 236;
-  };
-
-  const scrollRight = () => {
-    const slider = document.getElementById('slider');
-    if (slider) slider.scrollLeft -= 236;
-  };
 
   const handleUpdate = () => {
     setLoading(true);
@@ -111,48 +98,7 @@ const Page = () => {
                 />
               ))}
             </Carousel>
-            <div className='flex items-center relative'>
-              <div
-                className='absolute left-0 z-50 hover:bg-gray-200 cursor-pointer rounded-full p-[2px]
-              ease-in-out duration-300'
-                onClick={() => scrollRight()}
-              >
-                <IoIosArrowBack size={25} />
-              </div>
-              <div
-                id='slider'
-                className='mx-8 overflow-x-scroll scrollbar-hide scroll-smooth snap-x'
-              >
-                <div
-                  className='flex flex-row gap-4 items-center justify-start 
-                 relative py-4'
-                >
-                  {car.imgUrls.map((url, index) => (
-                    <div
-                      key={url}
-                      className='w-[220px] h-[150px] hover:scale-95 transition duration-300
-                      rounded-lg cursor-pointer flex-shrink-0'
-                      onClick={() => setCurrentSlide(index)}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        key={url}
-                        src={url}
-                        alt={car.model}
-                        className='rounded-lg object-cover w-full h-full'
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div
-                className='absolute right-0 z-50 hover:bg-gray-200 cursor-pointer rounded-full p-[2px]
-                ease-in-out duration-300'
-                onClick={() => scrollLeft()}
-              >
-                <IoIosArrowForward size={25} />
-              </div>
-            </div>
+            <MiniCarousel car={car} />
           </>
         )}
       </div>
@@ -218,7 +164,9 @@ const Page = () => {
                 flex justify-center items-center hover:bg-blue-900 ease-in-out duration-300'
                 onClick={() => {
                   setLoading(true);
-                  getCarById(getNumberFromPath(pathname))
+                  fetchCarById(
+                    pathname.split('/')[pathname.split('/').length - 1]
+                  )
                     .then((car) => {
                       setCar(car);
                       setLoading(false);

@@ -7,7 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { carsAtom, getAllCars, requestParamsAtom } from '@/utils/context';
+import { carsAtom, requestParamsAtom } from '@/utils/context';
+import { fetchCars } from '@/utils/fetch';
 import { useAtom } from 'jotai';
 import { RefreshCcw } from 'lucide-react';
 import { useState } from 'react';
@@ -40,9 +41,9 @@ const SearchGroup = () => {
   };
 
   const handleClick = () => {
-    getAllCars(requestParams).then((cars) => {
+    fetchCars(requestParams).then((cars) => {
       setCars(cars);
-      toast.success('Recherche effectués !');
+      toast.success('Recherche effectué !');
     });
   };
 
@@ -151,7 +152,10 @@ const SearchGroup = () => {
       hover:bg-slate-100'
         onClick={() => {
           setRequestParams({});
-          window.location.reload();
+          fetchCars(requestParams).then((cars) => {
+            setCars(cars);
+            toast.success('Paramètre de recherche réinitialisé !');
+          });
         }}
       >
         <RefreshCcw strokeWidth={2.5} />
