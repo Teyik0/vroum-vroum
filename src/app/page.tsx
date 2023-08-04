@@ -12,7 +12,7 @@ export default async function Home() {
         <SearchGroup />
       </section>
 
-      <CarList />
+      <CarList isAdmin={false} />
     </main>
   );
 }

@@ -9,7 +9,7 @@ import { TbCrosshair } from 'react-icons/tb';
 import toast from 'react-hot-toast';
 
 interface CarListProps {
-  isAdmin?: boolean;
+  isAdmin: boolean;
 }
 
 const CarList = ({ isAdmin }: CarListProps) => {
