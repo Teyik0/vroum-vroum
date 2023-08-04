@@ -8,13 +8,7 @@ const Page = async () => {
   const activePath = headersList.get('x-invoke-path');
 
   const car = await fetchCarById(activePath?.split('/').pop() as string);
-  const similarCars = await fetchSimilarCar({
-    price: String(car.price),
-    energy: car.energy,
-    km: String(car.kilometers),
-    gearbox: car.gearbox,
-    category: car.category,
-  });
+  const similarCars = await fetchSimilarCar({});
 
   return (
     <main className='m-auto max-w-[1200px]'>
