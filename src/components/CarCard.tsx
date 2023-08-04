@@ -32,7 +32,11 @@ const CarCard = ({ car, isAdmin }: CarProps) => {
           />
         )}
         <Link
-          href={isAdmin ? `/admin/voiture/${car.id}` : `/voiture/${car.id}`}
+          href={
+            isAdmin
+              ? `${process.env.BASE_URL}/admin/voiture/${car.id}`
+              : `${process.env.BASE_URL}/voiture/${car.id}`
+          }
         >
           <div className='relative h-[280px] sm:h-[250px] md:h-[220px] lg:h-[200px] rounded-lg overflow-hidden'>
             <Image
