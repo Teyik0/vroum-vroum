@@ -1,10 +1,10 @@
 'use client';
 
 import { Carousel, MiniCarousel } from '@/components';
-import { currentCarAtom, currentSlideAtom } from '@/utils/context';
+import { currentCarAtom } from '@/utils/context';
 import { Category, Energy, Gearbox } from '@prisma/client';
 import { useAtom } from 'jotai';
-import { redirect, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiEdit } from 'react-icons/fi';
 import {
@@ -21,7 +21,6 @@ import { fetchCarById } from '@/utils/fetch';
 const Page = () => {
   const pathname = usePathname();
   const [car, setCar] = useAtom(currentCarAtom);
-  const [_, setCurrentSlide] = useAtom(currentSlideAtom);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
