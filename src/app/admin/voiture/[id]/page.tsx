@@ -30,7 +30,10 @@ const Page = () => {
     );
   }, [pathname, setCar]);
 
-  const handleUpdate = () => {
+  const handleUpdate = () => {};
+  const handleDelete = () => {};
+
+  /* const handleUpdate = () => {
     setLoading(true);
     if (car !== null) {
       fetch(`/api/cars/${car.id}`, {
@@ -73,7 +76,7 @@ const Page = () => {
           console.error('Error:', error);
         });
     }
-  };
+  }; */
 
   return (
     <div className='m-auto max-w-[1200px]'>

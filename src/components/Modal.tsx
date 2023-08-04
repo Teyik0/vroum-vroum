@@ -48,7 +48,10 @@ const Modal = () => {
     });
   };
 
-  const handleDelete = () => {
+  const handleDelete = () => {};
+  const handleUpdate = () => {};
+
+  /* const handleDelete = () => {
     setLoading(true);
     if (modal.car !== null) {
       fetch(`/api/cars/${modal.car.id}`, {
@@ -74,7 +77,6 @@ const Modal = () => {
         });
     }
   };
-
   const handleUpdate = () => {
     setLoading(true);
     if (modal.car !== null) {
@@ -103,7 +105,7 @@ const Modal = () => {
           console.error('Error:', error);
         });
     }
-  };
+  }; */
 
   return (
     <div className='fixed flex justify-center items-center z-50 left-0 right-0 top-0 bottom-0 bg-[#5d5d5d1d]'>

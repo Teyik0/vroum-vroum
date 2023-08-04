@@ -3,6 +3,17 @@
 import { Car } from '@prisma/client';
 import { FilterCarParams } from './context';
 
+export const logout = async (authToken: string) => {
+  const res = await fetch(`${process.env.BASE_URL}/api/user/logout`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+  const data = await res.json();
+  return data;
+};
+
 export const fetchSession = async (authToken: string) => {
   const res = await fetch(`${process.env.BASE_URL}/api/user/isAuthenticated`, {
     method: 'GET',
