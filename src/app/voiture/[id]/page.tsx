@@ -1,53 +1,23 @@
-'use client';
-
-import { CarCard, Carousel } from '@/components';
-import {
-  currentSlideAtom,
-  getCarById,
-  getNumberFromPath,
-  getSimilarCar,
-} from '@/utils/context';
-import { FilterCarParams } from '@/utils/context';
+import { CarCard, Carousel, MiniCarousel } from '@/components';
+import { fetchCarById, fetchSimilarCar } from '@/utils/fetch';
 import { Car } from '@prisma/client';
-import { useAtom } from 'jotai';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { headers } from 'next/headers';
 
-const Page = () => {
-  const pathname = usePathname();
-  const [car, setCar] = useState<Car | null>(null);
-  const [_, setCurrentSlide] = useAtom(currentSlideAtom);
-  useEffect(() => {
-    getCarById(getNumberFromPath(pathname)).then((car) => setCar(car));
-  }, [pathname]);
+const Page = async () => {
+  const headersList = headers();
+  const activePath = headersList.get('x-invoke-path');
 
-  const [cars, setCars] = useState<Car[] | null>(null);
-  useEffect(() => {
-    if (car) {
-      const requestParams: FilterCarParams = {
-        price: String(car.price),
-        energy: car.energy,
-        km: String(car.kilometers),
-        gearbox: car.gearbox,
-      };
-      if (car.category) requestParams.category = car.category;
-      getSimilarCar(requestParams).then((cars) => setCars(cars));
-    }
-  }, [car]);
-
-  const scrollLeft = () => {
-    const slider = document.getElementById('slider');
-    if (slider) slider.scrollLeft += 236;
-  };
-
-  const scrollRight = () => {
-    const slider = document.getElementById('slider');
-    if (slider) slider.scrollLeft -= 236;
-  };
+  const car = await fetchCarById(activePath?.split('/').pop() as string);
+  const similarCars = await fetchSimilarCar({
+    price: String(car.price),
+    energy: car.energy,
+    km: String(car.kilometers),
+    gearbox: car.gearbox,
+    category: car.category,
+  });
 
   return (
-    <div className='m-auto max-w-[1200px]'>
+    <main className='m-auto max-w-[1200px]'>
       <h1 className='text-4xl font-semibold mt-4 px-2'>
         {car?.brand} {car?.model}
       </h1>
@@ -55,7 +25,7 @@ const Page = () => {
         {car && car.imgUrls && (
           <>
             <Carousel length={car.imgUrls.length} autoSlide>
-              {car.imgUrls.map((url, index) => (
+              {car?.imgUrls.map((url: string, index: number) => (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={index + car.model}
@@ -65,48 +35,7 @@ const Page = () => {
                 />
               ))}
             </Carousel>
-            <div className='flex items-center relative'>
-              <div
-                className='absolute left-0 z-50 hover:bg-gray-200 cursor-pointer rounded-full p-[2px]
-              ease-in-out duration-300'
-                onClick={() => scrollRight()}
-              >
-                <IoIosArrowBack size={25} />
-              </div>
-              <div
-                id='slider'
-                className='mx-8 overflow-x-scroll scrollbar-hide scroll-smooth snap-x'
-              >
-                <div
-                  className='flex flex-row gap-4 items-center justify-start 
-                 relative py-4'
-                >
-                  {car.imgUrls.map((url, index) => (
-                    <div
-                      key={url}
-                      className='w-[220px] h-[150px] hover:scale-95 transition duration-300
-                      rounded-lg cursor-pointer flex-shrink-0'
-                      onClick={() => setCurrentSlide(index)}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        key={url}
-                        src={url}
-                        alt={car.model}
-                        className='rounded-lg object-cover w-full h-full'
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div
-                className='absolute right-0 z-50 hover:bg-gray-200 cursor-pointer rounded-full p-[2px]
-                ease-in-out duration-300'
-                onClick={() => scrollLeft()}
-              >
-                <IoIosArrowForward size={25} />
-              </div>
-            </div>
+            <MiniCarousel car={car} />
           </>
         )}
       </div>
@@ -183,14 +112,12 @@ const Page = () => {
         <div className='my-8'>
           <h2 className='text-2xl font-bold'>Annonces similaires</h2>
           <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full gap-4 mt-8'>
-            {cars &&
-              cars.map((car: Car) => (
-                <CarCard key={car.id} car={car} isAdmin={false} />
-              ))}
+            {similarCars &&
+              similarCars.map((car: Car) => <CarCard key={car.id} car={car} />)}
           </section>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

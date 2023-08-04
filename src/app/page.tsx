@@ -1,21 +1,7 @@
-'use client';
-
-import { SearchGroup, CarCard } from '@/components';
-import { carsAtom, getAllCars, requestParamsAtom } from '@/utils/context';
-import { Car } from '@prisma/client';
-import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { SearchGroup, CarList } from '@/components';
 import { Toaster } from 'react-hot-toast';
 
-export default function Home() {
-  const [cars, setCars] = useAtom(carsAtom);
-  const [requestParams] = useAtom(requestParamsAtom);
-
-  useEffect(() => {
-    getAllCars(requestParams).then((cars) => setCars(cars));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+export default async function Home() {
   return (
     <main className='m-auto max-w-[1200px]'>
       <Toaster />
@@ -26,12 +12,7 @@ export default function Home() {
         <SearchGroup />
       </section>
 
-      <section className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full gap-4 py-12 px-4'>
-        {cars &&
-          cars.map((car: Car) => (
-            <CarCard key={car.id} car={car} isAdmin={false} />
-          ))}
-      </section>
+      <CarList />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 import prisma from '@/utils/client';
-import { NextApiRequest } from 'next';
-import { FilterCarParams } from '@/utils/interface';
+import { FilterCarParams } from '@/utils/context';
 import { Car } from '@prisma/client';
+import { NextRequest } from 'next/server';
 
 export function parseQueryParameters(url: string) {
   const queryString = url.split('?')[1]; // Récupère la partie de la chaîne après le point d'interrogation
@@ -16,7 +16,7 @@ export function parseQueryParameters(url: string) {
   return queryParams;
 }
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
   try {
     const params: FilterCarParams = parseQueryParameters(request.url!);
     if (

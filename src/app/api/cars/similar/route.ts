@@ -1,5 +1,5 @@
 import prisma from '@/utils/client';
-import { FilterCarParams } from '@/utils/interface';
+import { FilterCarParams } from '@/utils/context';
 import { parseQueryParameters } from '../route';
 import { NextRequest } from 'next/server';
 

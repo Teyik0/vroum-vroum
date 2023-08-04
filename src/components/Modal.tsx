@@ -17,22 +17,20 @@ import {
 } from './ui/select';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
-import { carsAtom, getAllCars, isModalClickedAtom } from '@/utils/context';
+import { carsAtom, isModalClickedAtom } from '@/utils/context';
 import { useAtom } from 'jotai';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { Category, Energy, Gearbox } from '@prisma/client';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import Link from 'next/link';
+import { fetchCars } from '@/utils/fetch';
 
 const Modal = () => {
   const [modal, setModal] = useAtom(isModalClickedAtom);
   const [cars, setCars] = useAtom(carsAtom);
   const [loading, setLoading] = useState(false);
   if (modal.isClicked) document.body.style.overflow = 'hidden';
-
-  const handleDelete = () => {};
-  const handleUpdate = () => {};
 
   const handleChange = (
     value: Energy | Category | Gearbox,
@@ -50,7 +48,10 @@ const Modal = () => {
     });
   };
 
-  /*  const handleDelete = () => {
+  const handleDelete = () => {};
+  const handleUpdate = () => {};
+
+  /* const handleDelete = () => {
     setLoading(true);
     if (modal.car !== null) {
       fetch(`/api/cars/${modal.car.id}`, {
@@ -67,7 +68,7 @@ const Modal = () => {
             car: null,
           });
           document.body.style.overflow = 'unset';
-          getAllCars({}).then((cars) => setCars(cars));
+          fetchCars({}).then((cars) => setCars(cars));
         })
         .catch((error) => {
           toast.error('Une erreur est survenue !');
@@ -76,7 +77,6 @@ const Modal = () => {
         });
     }
   };
-
   const handleUpdate = () => {
     setLoading(true);
     if (modal.car !== null) {
@@ -97,7 +97,7 @@ const Modal = () => {
             car: null,
           });
           document.body.style.overflow = 'unset';
-          getAllCars({}).then((cars) => setCars(cars));
+          fetchCars({}).then((cars) => setCars(cars));
         })
         .catch((error) => {
           toast.error('Une erreur est survenue !');
