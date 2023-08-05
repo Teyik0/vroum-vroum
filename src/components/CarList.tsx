@@ -4,7 +4,7 @@ import { carsAtom, requestParamsAtom } from '@/utils/context';
 import { useAtom } from 'jotai';
 import CarCard from './CarCard';
 import { useEffect } from 'react';
-import { fetchCars } from '@/utils/fetch';
+import { fetchCars } from '@/utils/cars.actions';
 import { TbCrosshair } from 'react-icons/tb';
 import toast from 'react-hot-toast';
 

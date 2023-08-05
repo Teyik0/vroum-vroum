@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { carsAtom, requestParamsAtom } from '@/utils/context';
-import { fetchCars } from '@/utils/fetch';
+import { fetchCars } from '@/utils/cars.actions';
 import { useAtom } from 'jotai';
 import { RefreshCcw } from 'lucide-react';
 import { useState } from 'react';

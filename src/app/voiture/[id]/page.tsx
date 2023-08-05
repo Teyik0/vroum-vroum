@@ -1,14 +1,17 @@
 import { CarCard, Carousel, MiniCarousel } from '@/components';
-import { fetchCarById, fetchSimilarCar } from '@/utils/fetch';
+import { fetchCarById, fetchSimilarCar } from '@/utils/cars.actions';
 import { Car } from '@prisma/client';
-import { headers } from 'next/headers';
 
-const Page = async () => {
-  const headersList = headers();
-  const activePath = headersList.get('x-invoke-path');
-
-  const car = await fetchCarById(activePath?.split('/').pop() as string);
-  const similarCars = await fetchSimilarCar({});
+const Page = async ({ params }: { params: { id: string } }) => {
+  const car = await fetchCarById(params.id);
+  if (!car) return null;
+  const similarCars = await fetchSimilarCar({
+    energy: car.energy || undefined,
+    gearbox: car.gearbox || undefined,
+    category: car.category || undefined,
+    price: String(car.price) || undefined,
+    km: String(car.kilometers) || undefined,
+  });
 
   return (
     <main className='m-auto max-w-[1200px]'>

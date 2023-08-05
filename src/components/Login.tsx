@@ -2,8 +2,8 @@
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { sessionAtom } from '@/utils/context';
-import { login } from '@/utils/fetch';
+import { User, sessionAtom } from '@/utils/context';
+import { login } from '@/utils/users.actions';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -20,12 +20,12 @@ const Login = () => {
 
   const handleClick = async () => {
     const { username, password } = loginForm;
-    const userLog = await login(username, password);
-    if (!userLog.error) {
-      setSession(userLog);
-      console.log(userLog);
+    const user = await login(username, password);
+    console.log(user);
+    if (user.authToken !== null) {
+      setSession(user as User);
       toast.success('Vous êtes connecté');
-    } else toast.error(userLog.error);
+    }
   };
 
   return (

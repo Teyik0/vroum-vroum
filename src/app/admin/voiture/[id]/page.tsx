@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import toast, { Toaster } from 'react-hot-toast';
-import { fetchCarById } from '@/utils/fetch';
+import { fetchCarById } from '@/utils/cars.actions';
 
 const Page = () => {
   const pathname = usePathname();

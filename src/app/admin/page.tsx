@@ -1,7 +1,7 @@
 'use client';
 
 import { Login, SearchGroup, CarList } from '@/components';
-import { fetchSession } from '@/utils/fetch';
+import { fetchSession } from '@/utils/users.actions';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useAtom } from 'jotai';
@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     if (session) {
       fetchSession(session.authToken).then((user) => {
-        if (user.error) setSession(null);
+        if (!user) setSession(null);
       });
     }
   }, [session, setSession]);
