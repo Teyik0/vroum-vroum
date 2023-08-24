@@ -28,3 +28,4 @@ export const isModalClickedAtom = atom<{
 });
 export const sessionAtom = atomWithStorage<User | null>('session', null);
 export const currentCarAtom = atom<Car | null>(null);
+export const loadingAtom = atom<boolean>(false);

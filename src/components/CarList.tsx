@@ -6,7 +6,6 @@ import CarCard from './CarCard';
 import { useEffect } from 'react';
 import { fetchCars } from '@/utils/cars.actions';
 import { TbCrosshair } from 'react-icons/tb';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 interface CarListProps {

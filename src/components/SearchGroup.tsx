@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { carsAtom, requestParamsAtom } from '@/utils/context';
+import { carsAtom, loadingAtom, requestParamsAtom } from '@/utils/context';
 import { fetchCars } from '@/utils/cars.actions';
 import { useAtom } from 'jotai';
 import { RefreshCcw } from 'lucide-react';
@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 
 const SearchGroup = () => {
   const [requestParams, setRequestParams] = useAtom(requestParamsAtom);
+  const [loading, setLoading] = useAtom(loadingAtom);
   const [, setCars] = useAtom(carsAtom);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,9 +42,11 @@ const SearchGroup = () => {
   };
 
   const handleClick = () => {
+    setLoading(true);
     fetchCars(requestParams).then((cars) => {
       setCars(cars);
       toast.success('Recherche effectué !');
+      setLoading(false);
     });
   };
 
@@ -52,7 +55,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'price')}
         defaultValue='tous-prix'
-        value={requestParams.price}
+        value={requestParams.price || 'tous-prix'}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
@@ -76,7 +79,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'km')}
         defaultValue='tous-kilometre'
-        value={requestParams.km}
+        value={requestParams.km || 'tous-kilometre'}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
@@ -98,7 +101,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'energy')}
         defaultValue='tous-carburant'
-        value={requestParams.energy}
+        value={requestParams.energy || 'tous-carburant'}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
@@ -118,7 +121,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'category')}
         defaultValue='toutes-categorie'
-        value={requestParams.category}
+        value={requestParams.category || 'toutes-categorie'}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-5 capitalize'>
@@ -139,7 +142,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'gearbox')}
         defaultValue='toutes-boites'
-        value={requestParams.gearbox}
+        value={requestParams.gearbox || 'toutes-boites'}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-5'>
@@ -157,7 +160,7 @@ const SearchGroup = () => {
       hover:bg-slate-100'
         onClick={() => {
           setRequestParams({});
-          fetchCars(requestParams).then((cars) => {
+          fetchCars({}).then((cars) => {
             setCars(cars);
             toast.success('Paramètre de recherche réinitialisé !');
           });
@@ -170,8 +173,17 @@ const SearchGroup = () => {
         className='h-auto md:h-12 col-span-4 md:col-span-6 md:col-start-7 bg-blue-600 text-white text-xl rounded-lg 
           flex justify-center items-center hover:bg-blue-900 ease-in-out duration-300'
         onClick={handleClick}
+        disabled={loading}
       >
-        Recherche
+        {!loading ? (
+          'Recherche'
+        ) : (
+          <div className='flex justify-center items-center'>
+            <div
+              className={`animate-spin rounded-full h-6 w-6 border-b-2 border-red-700`}
+            />
+          </div>
+        )}
       </button>
 
       {isOpen && (
