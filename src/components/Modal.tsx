@@ -24,7 +24,7 @@ import { Category, Energy, Gearbox } from '@prisma/client';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import Link from 'next/link';
-import { fetchCars } from '@/utils/cars.actions';
+import { deleteCar, fetchCars, updateCar } from '@/utils/cars.actions';
 
 const Modal = () => {
   const [modal, setModal] = useAtom(isModalClickedAtom);
@@ -48,19 +48,11 @@ const Modal = () => {
     });
   };
 
-  const handleDelete = () => {};
-  const handleUpdate = () => {};
-
-  /* const handleDelete = () => {
+  const handleDelete = () => {
     setLoading(true);
     if (modal.car !== null) {
-      fetch(`/api/cars/${modal.car.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
+      deleteCar(modal.car.id)
+        .then(() => {
           toast.success('Véhicule supprimé avec succès !');
           setLoading(false);
           setModal({
@@ -73,23 +65,14 @@ const Modal = () => {
         .catch((error) => {
           toast.error('Une erreur est survenue !');
           setLoading(false);
-          console.error('Error:', error);
         });
     }
   };
   const handleUpdate = () => {
     setLoading(true);
     if (modal.car !== null) {
-      fetch(`/api/cars/${modal.car.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(modal.car),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data);
+      updateCar(modal.car.id, modal.car)
+        .then((car) => {
           toast.success('Véhicule mis à jour avec succès !');
           setLoading(false);
           setModal({
@@ -102,10 +85,9 @@ const Modal = () => {
         .catch((error) => {
           toast.error('Une erreur est survenue !');
           setLoading(false);
-          console.error('Error:', error);
         });
     }
-  }; */
+  };
 
   return (
     <div className='fixed flex justify-center items-center z-50 left-0 right-0 top-0 bottom-0 bg-[#5d5d5d1d]'>

@@ -3,6 +3,7 @@
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import prisma from './client';
+import { User } from '@prisma/client';
 
 export const logout = async (authToken: string) => {
   try {
@@ -24,7 +25,7 @@ export const logout = async (authToken: string) => {
   }
 };
 
-export const fetchSession = async (authToken: string) => {
+export const fetchSession = async (authToken: string): Promise<User> => {
   try {
     const decoded = jwt.verify(authToken, process.env.JWT_SECRET!);
     const { id } = decoded as { id: number };

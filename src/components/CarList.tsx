@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { fetchCars } from '@/utils/cars.actions';
 import { TbCrosshair } from 'react-icons/tb';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface CarListProps {
   isAdmin: boolean;
@@ -14,10 +15,12 @@ interface CarListProps {
 
 const CarList = ({ isAdmin }: CarListProps) => {
   const [cars, setCars] = useAtom(carsAtom);
-  const [requestParams] = useAtom(requestParamsAtom);
+  const [requestParams, setRequestParams] = useAtom(requestParamsAtom);
+  const router = useRouter();
 
   useEffect(() => {
-    fetchCars(requestParams).then((cars) => setCars(cars));
+    setRequestParams({});
+    fetchCars({}).then((cars) => setCars(cars));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -29,14 +32,13 @@ const CarList = ({ isAdmin }: CarListProps) => {
             overflow-hidden before:bg-[#888d8d] before:opacity-20 before:absolute before:h-full before:w-full 
             before:translate-y-[100%] before:transition-all 
             before:duration-500 before:ease-in-out hover:before:translate-y-0 hover:before:rounded-none'
+          onClick={() => {
+            console.log('redirect');
+            router.push('/admin/ajouter');
+          }}
         >
           <TbCrosshair className='text-7xl text-slate-300' />
-          <h4
-            className='absolute top-4 left-4 text-xl font-bold'
-            onClick={() => {
-              toast.success('Nouvelle voiture ajoutée !');
-            }}
-          >
+          <h4 className='absolute top-4 left-4 text-xl font-bold'>
             Ajouter une nouvelle voiture
           </h4>
         </div>

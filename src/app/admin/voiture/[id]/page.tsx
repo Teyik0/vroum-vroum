@@ -4,7 +4,6 @@ import { Carousel, MiniCarousel } from '@/components';
 import { currentCarAtom } from '@/utils/context';
 import { Category, Energy, Gearbox } from '@prisma/client';
 import { useAtom } from 'jotai';
-import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FiEdit } from 'react-icons/fi';
 import {
@@ -16,91 +15,74 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import toast, { Toaster } from 'react-hot-toast';
-import { fetchCarById } from '@/utils/cars.actions';
+import { deleteCar, fetchCarById, updateCar } from '@/utils/cars.actions';
+import { useRouter } from 'next/navigation';
 
-const Page = () => {
-  const pathname = usePathname();
+const Page = ({ params }: { params: { id: string } }) => {
   const [car, setCar] = useAtom(currentCarAtom);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    fetchCarById(pathname.split('/')[pathname.split('/').length - 1]).then(
-      (car) => setCar(car)
-    );
-  }, [pathname, setCar]);
+    fetchCarById(params.id).then((car) => setCar(car));
+  }, [setCar, params.id]);
 
-  const handleUpdate = () => {};
-  const handleDelete = () => {};
+  //const handleUpdate = () => {};
+  //const handleDelete = () => {};
 
-  /* const handleUpdate = () => {
+  const handleUpdate = () => {
     setLoading(true);
     if (car !== null) {
-      fetch(`/api/cars/${car.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(car),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data);
+      updateCar(Number(params.id), car)
+        .then(() => {
           toast.success('Véhicule mis à jour avec succès !');
           setLoading(false);
         })
         .catch((error) => {
           toast.error('Une erreur est survenue !');
           setLoading(false);
-          console.error('Error:', error);
         });
     }
   };
   const handleDelete = () => {
     setLoading(true);
     if (car !== null) {
-      fetch(`/api/cars/${car.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
+      deleteCar(car.id)
+        .then(() => {
           toast.success('Véhicule supprimé avec succès !');
           setLoading(false);
-          redirect('/admin');
+          router.push('/admin');
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error('Une erreur est survenue !');
           setLoading(false);
-          console.error('Error:', error);
         });
     }
-  }; */
+  };
 
   return (
     <div className='m-auto max-w-[1200px]'>
       <Toaster />
       <h1 className='text-4xl font-semibold mt-4 px-2 flex items-center'>
-        <FiEdit
-          className={`mr-4 inline-block text-slate-400 hover:text-slate-900 cursor-pointer`}
-        />
+        <FiEdit className={`mr-4 inline-block text-slate-400`} />
         {car?.brand} {car?.model}
       </h1>
       <div className='px-2 mt-4'>
         {car && car.imgUrls && (
           <>
             <Carousel length={car.imgUrls.length} autoSlide>
-              {car.imgUrls.map((url, index) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={index + car.model}
-                  src={url || '/audi.jpeg'}
-                  alt={car.model}
-                  className='rounded-lg object-cover w-full'
-                />
-              ))}
+              {car.imgUrls.length > 0 &&
+                car.imgUrls.map((url, index) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={index + car.model}
+                    src={url || '/audi.jpeg'}
+                    alt={car.model}
+                    className='rounded-lg object-cover w-full'
+                  />
+                ))}
             </Carousel>
-            <MiniCarousel car={car} />
+            <MiniCarousel car={car} isAdmin={true} />
           </>
         )}
       </div>
@@ -166,9 +148,7 @@ const Page = () => {
                 flex justify-center items-center hover:bg-blue-900 ease-in-out duration-300'
                 onClick={() => {
                   setLoading(true);
-                  fetchCarById(
-                    pathname.split('/')[pathname.split('/').length - 1]
-                  )
+                  fetchCarById(params.id)
                     .then((car) => {
                       setCar(car);
                       setLoading(false);

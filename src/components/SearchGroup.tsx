@@ -52,6 +52,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'price')}
         defaultValue='tous-prix'
+        value={requestParams.price}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
@@ -75,6 +76,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'km')}
         defaultValue='tous-kilometre'
+        value={requestParams.km}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
@@ -96,6 +98,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'energy')}
         defaultValue='tous-carburant'
+        value={requestParams.energy}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-4'>
@@ -115,6 +118,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'category')}
         defaultValue='toutes-categorie'
+        value={requestParams.category}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-5 capitalize'>
@@ -135,6 +139,7 @@ const SearchGroup = () => {
       <Select
         onValueChange={(value: string) => handleChange(value, 'gearbox')}
         defaultValue='toutes-boites'
+        value={requestParams.gearbox}
         onOpenChange={(open) => setIsOpen(open)}
       >
         <SelectTrigger className='col-span-6 md:col-span-5'>

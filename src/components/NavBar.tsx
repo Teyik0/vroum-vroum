@@ -31,7 +31,12 @@ const NavBar = () => {
               <Link href='/'>Toutes nos occasions</Link>
             </div>
             <div className='text-white text-sm sm:text-lg md:text-xl font-normal'>
-              <Link href='/'>Véhicules neuf</Link>
+              <Link
+                href='https://www.europauto-calais.com/vehicules-neufs/'
+                target='_blank'
+              >
+                Véhicules neuf
+              </Link>
             </div>
           </div>
           {isAdmin && (
