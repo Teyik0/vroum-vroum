@@ -42,6 +42,11 @@ const SearchGroup = () => {
   };
 
   const handleClick = () => {
+    if (loading) return;
+    if (Object.keys(requestParams).length === 0) {
+      toast.error('Veuillez sélectionner au moins un paramètre de recherche !');
+      return;
+    }
     setLoading(true);
     fetchCars(requestParams).then((cars) => {
       setCars(cars);
@@ -159,11 +164,15 @@ const SearchGroup = () => {
         className='h-auto col-span-2 md:col-span-1 md:col-start-12 border rounded-lg flex justify-center items-center
       hover:bg-slate-100'
         onClick={() => {
+          if (loading) return;
+          setLoading(true);
           setRequestParams({});
-          fetchCars({}).then((cars) => {
-            setCars(cars);
-            toast.success('Paramètre de recherche réinitialisé !');
-          });
+          fetchCars({})
+            .then((cars) => {
+              setCars(cars);
+              toast.success('Paramètre de recherche réinitialisé !');
+            })
+            .finally(() => setLoading(false));
         }}
       >
         <RefreshCcw strokeWidth={2.5} />

@@ -1,12 +1,13 @@
 'use client';
 
-import { carsAtom, requestParamsAtom } from '@/utils/context';
+import { carsAtom, loadingAtom, requestParamsAtom } from '@/utils/context';
 import { useAtom } from 'jotai';
 import CarCard from './CarCard';
 import { useEffect } from 'react';
 import { fetchCars } from '@/utils/cars.actions';
 import { TbCrosshair } from 'react-icons/tb';
 import { useRouter } from 'next/navigation';
+import { Skeleton } from './ui/skeleton';
 
 interface CarListProps {
   isAdmin: boolean;
@@ -15,11 +16,15 @@ interface CarListProps {
 const CarList = ({ isAdmin }: CarListProps) => {
   const [cars, setCars] = useAtom(carsAtom);
   const [requestParams, setRequestParams] = useAtom(requestParamsAtom);
+  const [loading, setLoading] = useAtom(loadingAtom);
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
     setRequestParams({});
-    fetchCars({}).then((cars) => setCars(cars));
+    fetchCars({})
+      .then((cars) => setCars(cars))
+      .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -42,11 +47,33 @@ const CarList = ({ isAdmin }: CarListProps) => {
           </h4>
         </div>
       )}
-      {cars?.map((car) => (
-        <CarCard key={car.id} car={car} isAdmin={isAdmin} />
-      ))}
+      {!loading ? (
+        <>
+          {cars?.map((car) => (
+            <CarCard key={car.id} car={car} isAdmin={isAdmin} />
+          ))}
+        </>
+      ) : (
+        <>
+          {Array.from({ length: 12 }, (_, index) => (
+            <SkeletonCarCard key={index} />
+          ))}
+        </>
+      )}
     </section>
   );
 };
+
+const SkeletonCarCard = () => (
+  <div>
+    <Skeleton className='h-[280px] sm:h-[250px] md:h-[220px] lg:h-[200px] rounded-lg' />
+    <div className='grid grid-cols-2 gap-2 mt-4 text-sm'>
+      <Skeleton className='col-span-1 h-8' />
+      <Skeleton className='col-span-1 h-8' />
+      <Skeleton className='col-span-1 h-8' />
+      <Skeleton className='col-span-1 h-8' />
+    </div>
+  </div>
+);
 
 export default CarList;
