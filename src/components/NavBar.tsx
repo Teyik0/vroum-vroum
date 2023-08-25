@@ -16,27 +16,17 @@ const NavBar = () => {
           height={150}
           alt='logo'
           src='/volvo-logo.png'
-          className='hidden sm:flex'
-        />
-        <Image
-          width={100}
-          height={100}
-          alt='logo'
-          src='/volvo-logo.png'
-          className='sm:hidden flex'
+          className='sm:flex'
         />
         <div className='flex justify-between w-full items-center'>
-          <div className='flex gap-8'>
-            <div className='text-white font-normal'>
-              <Link href='/' className='text-sm sm:text-lg md:text-xl'>
-                Toutes nos occasions
-              </Link>
+          <div className='flex gap-8 md:text-xl text-white font-normal'>
+            <div>
+              <Link href='/'>Toutes nos occasions</Link>
             </div>
-            <div className='text-white font-normal'>
+            <div>
               <Link
                 href='https://www.europauto-calais.com/vehicules-neufs/'
                 target='_blank'
-                className='text-sm sm:text-lg md:text-xl'
               >
                 Véhicules neuf
               </Link>
