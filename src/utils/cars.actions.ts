@@ -139,9 +139,10 @@ export const fetchSimilarCar = async (
 };
 
 export const postCar = async (car: Car) => {
+  const { id, ...carData } = car;
   try {
     const newCar = await prisma.car.create({
-      data: car,
+      data: carData,
     });
     return newCar;
   } catch (error: any) {

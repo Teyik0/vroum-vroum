@@ -59,7 +59,6 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className='m-auto max-w-[1200px]'>
-      <Toaster />
       <h1 className='text-4xl font-semibold mt-4 px-2 flex items-center'>
         <FiEdit className={`mr-4 inline-block text-slate-400`} />
         {car?.brand} {car?.model}
@@ -83,6 +82,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </>
         )}
       </div>
+
       <div className='mt-8 px-2'>
         <div className='flex justify-between text-2xl font-bold'>
           <div className='flex items-end gap-2'>

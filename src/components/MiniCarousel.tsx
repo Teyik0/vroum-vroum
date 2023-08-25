@@ -8,7 +8,13 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RiImageAddFill } from 'react-icons/ri';
 import NewImageModal from './NewImageModal';
 
-const MiniCarousel = ({ car, isAdmin }: { car: Car; isAdmin?: boolean }) => {
+const MiniCarousel = ({
+  car,
+  isAdmin,
+}: {
+  car: Car | null;
+  isAdmin?: boolean;
+}) => {
   const [_, setCurrentSlide] = useAtom(currentSlideAtom);
   const [modalOpen, setModalOpen] = useState(false);
   const scrollLeft = () => {
@@ -52,7 +58,7 @@ const MiniCarousel = ({ car, isAdmin }: { car: Car; isAdmin?: boolean }) => {
                 <RiImageAddFill className='text-gray-400 w-32 h-32 m-auto' />
               </button>
             )}
-            {car.imgUrls.map((url, index) => (
+            {car?.imgUrls.map((url, index) => (
               <div
                 key={url + index}
                 className='w-[220px] h-[150px] hover:scale-95 transition duration-300

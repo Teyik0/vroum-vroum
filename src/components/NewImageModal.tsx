@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { useEffect } from 'react';
 import '@uploadthing/react/styles.css';
 import { UploadButton } from '@/utils/uploadthing';
 import toast from 'react-hot-toast';

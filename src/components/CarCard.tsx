@@ -38,7 +38,7 @@ const CarCard = ({ car, isAdmin }: CarProps) => {
             <Image
               fill
               alt='car'
-              src={car.imgUrls[0] || '/audi.jpeg'}
+              src={car.imgUrls[0] || '/no-img.jpeg'}
               priority
             />
           </div>
