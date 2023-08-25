@@ -27,9 +27,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     fetchCarById(params.id).then((car) => setCar(car));
   }, [setCar, params.id]);
 
-  //const handleUpdate = () => {};
-  //const handleDelete = () => {};
-
   const handleUpdate = () => {
     setLoading(true);
     if (car !== null) {
@@ -70,7 +67,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       <div className='px-2 mt-4'>
         {car && car.imgUrls && (
           <>
-            <Carousel length={car.imgUrls.length} autoSlide>
+            <Carousel length={car.imgUrls.length} autoSlide isAdmin>
               {car.imgUrls.length > 0 &&
                 car.imgUrls.map((url, index) => (
                   // eslint-disable-next-line @next/next/no-img-element

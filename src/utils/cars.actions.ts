@@ -3,6 +3,7 @@
 import { Car } from '@prisma/client';
 import { FilterCarParams } from './context';
 import prisma from './client';
+import { utapi } from 'uploadthing/server';
 
 export const fetchCars = async ({
   category,
@@ -81,13 +82,10 @@ export const fetchCarById = async (carId: string) => {
   }
 };
 
-export const fetchSimilarCar = async ({
-  category,
-  energy,
-  gearbox,
-  km,
-  price,
-}: FilterCarParams): Promise<Car[]> => {
+export const fetchSimilarCar = async (
+  currentCarId: number,
+  { category, energy, gearbox, km, price }: FilterCarParams
+): Promise<Car[]> => {
   try {
     const cars = await prisma.car.findMany({
       where: {
@@ -128,6 +126,9 @@ export const fetchSimilarCar = async ({
               : undefined,
           },
         ],
+        NOT: {
+          id: currentCarId,
+        },
       },
       take: 8,
     });
@@ -166,6 +167,7 @@ export const updateCar = async (
   }: Car
 ) => {
   try {
+    console.log('Images url from server :', imgUrls);
     const car = await prisma.car.update({
       where: {
         id: carId,
@@ -184,6 +186,7 @@ export const updateCar = async (
         doors,
       },
     });
+    console.log('updatedCar from server :', car);
     return car;
   } catch (error: any) {
     throw new Error(`Something went wrong ${error.message}`);
@@ -201,4 +204,11 @@ export const deleteCar = async (carId: number) => {
   } catch (error: any) {
     throw new Error(`Something went wrong ${error.message}`);
   }
+};
+
+export const deleteImgFromUT = async (imgUrl: string) => {
+  console.log('imgUrl to delete from server :', imgUrl);
+  const fileName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1);
+  console.log('fileName from server :', fileName);
+  const data = await utapi.deleteFiles(fileName);
 };

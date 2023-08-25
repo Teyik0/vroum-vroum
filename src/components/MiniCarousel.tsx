@@ -1,6 +1,6 @@
 'use client';
 
-import { currentSlideAtom, isModalClickedAtom } from '@/utils/context';
+import { currentSlideAtom } from '@/utils/context';
 import { Car } from '@prisma/client';
 import { useAtom } from 'jotai';
 import React, { useState } from 'react';
@@ -54,14 +54,13 @@ const MiniCarousel = ({ car, isAdmin }: { car: Car; isAdmin?: boolean }) => {
             )}
             {car.imgUrls.map((url, index) => (
               <div
-                key={url}
+                key={url + index}
                 className='w-[220px] h-[150px] hover:scale-95 transition duration-300
                 rounded-lg cursor-pointer flex-shrink-0'
                 onClick={() => setCurrentSlide(index)}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  key={url}
                   src={url}
                   alt={car.model}
                   className='rounded-lg object-cover w-full h-full'

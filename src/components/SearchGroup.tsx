@@ -163,6 +163,7 @@ const SearchGroup = () => {
       <button
         className='h-auto col-span-2 md:col-span-1 md:col-start-12 border rounded-lg flex justify-center items-center
       hover:bg-slate-100'
+        disabled={loading}
         onClick={() => {
           if (loading) return;
           setLoading(true);
@@ -184,15 +185,7 @@ const SearchGroup = () => {
         onClick={handleClick}
         disabled={loading}
       >
-        {!loading ? (
-          'Recherche'
-        ) : (
-          <div className='flex justify-center items-center'>
-            <div
-              className={`animate-spin rounded-full h-6 w-6 border-b-2 border-red-700`}
-            />
-          </div>
-        )}
+        Recherche
       </button>
 
       {isOpen && (

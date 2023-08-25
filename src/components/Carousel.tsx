@@ -3,7 +3,10 @@
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { currentSlideAtom } from '@/utils/context';
+import { currentCarAtom, currentSlideAtom } from '@/utils/context';
+import { AiFillMinusCircle } from 'react-icons/ai';
+import { deleteImgFromUT, updateCar } from '@/utils/cars.actions';
+import toast from 'react-hot-toast';
 
 const buttonStyle = `rounded-full bg-white/60 shadow-l hover:bg-white transition duration-300`;
 
@@ -12,6 +15,7 @@ interface CarouselProps {
   length: number;
   autoSlide?: boolean;
   autoSlideInterval?: number;
+  isAdmin?: boolean;
 }
 
 const Carousel = ({
@@ -19,8 +23,10 @@ const Carousel = ({
   length,
   autoSlide = false,
   autoSlideInterval = 6000,
+  isAdmin,
 }: CarouselProps) => {
   const [current, setCurrent] = useAtom(currentSlideAtom);
+  const [car, setCar] = useAtom(currentCarAtom);
 
   const handleNext = () => {
     setCurrent((prev) => (current === length - 1 ? 0 : prev + 1));
@@ -31,14 +37,47 @@ const Carousel = ({
   };
 
   useEffect(() => {
+    console.log('current', current);
+
     if (!autoSlide) return;
     const slideInterval = setInterval(handleNext, autoSlideInterval);
     return () => clearInterval(slideInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current]);
 
+  const handleDeleteImg = () => {
+    if (!car) return;
+    if (car.imgUrls.length === 1) {
+      toast.error('Vous devez au moins avoir une image');
+      return;
+    }
+    const notif = toast.loading('Deleting image...');
+
+    deleteImgFromUT(car.imgUrls[current]);
+    let newArray: string[] = [];
+    car.imgUrls.forEach((img, index) => {
+      if (index !== current) newArray = [...newArray, img];
+    });
+    console.log('newArr', newArray);
+    updateCar(car?.id, { ...car, imgUrls: newArray })
+      .then((res) => {
+        if (!res) return;
+        setCar(res);
+        toast.success('Image deleted', { id: notif });
+      })
+      .catch((err) => {
+        toast.error(err.message, { id: notif });
+      });
+  };
+
   return (
     <div className='overflow-hidden relative w-full'>
+      {isAdmin && car && car?.imgUrls?.length > 0 && (
+        <AiFillMinusCircle
+          className='absolute top-4 right-4 w-8 h-8 z-50 cursor-pointer text-red-600 hover:text-red-900 duration-300 ease-in-out'
+          onClick={() => handleDeleteImg()}
+        />
+      )}
       <div
         className='flex transition-transform ease-out duration-500'
         style={{ transform: `translateX(-${current * 100}%` }}

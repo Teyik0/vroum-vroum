@@ -5,7 +5,7 @@ import { Car } from '@prisma/client';
 const Page = async ({ params }: { params: { id: string } }) => {
   const car = await fetchCarById(params.id);
   if (!car) return null;
-  const similarCars = await fetchSimilarCar({
+  const similarCars = await fetchSimilarCar(Number(params.id), {
     energy: car.energy || undefined,
     gearbox: car.gearbox || undefined,
     category: car.category || undefined,

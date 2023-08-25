@@ -95,11 +95,9 @@ const Modal = () => {
         <CardHeader>
           <div className='flex justify-between'>
             <div>
-              <CardTitle>
-                {modal.car?.brand} {modal.car?.model}
-              </CardTitle>
+              <CardTitle>Modification rapide</CardTitle>
               <CardDescription>
-                {modal.car?.year} - {modal.car?.finition}
+                {modal.car?.brand} {modal.car?.model}
               </CardDescription>
             </div>
             <AiFillCloseCircle
